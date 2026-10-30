@@ -1,3 +1,5 @@
+import BurnsidePrimeDegreeTheorem.Proof
+import Architect
 import Mathlib.GroupTheory.Perm.Basic
 import Mathlib.GroupTheory.Perm.Sign
 import Mathlib.GroupTheory.Solvable
@@ -16,6 +18,7 @@ open MulAction
 A transitive permutation group of prime degree is either 2-transitive or has a normal regular
 subgroup.
 -/
+@[blueprint "BurnsidePrimeDegreeTheorem.MainTheorem"]
 theorem MainTheorem
     {α : Type*} [Fintype α]
     {G : Subgroup (Equiv.Perm α)}
@@ -24,6 +27,8 @@ theorem MainTheorem
     IsMultiplyPretransitive G α 2 ∨
       ∃ N : Subgroup G, N.Normal ∧ IsPretransitive N α ∧
         ∀ a : α, MulAction.stabilizer N a = ⊥ := by
-  sorry
+  by_cases h : IsMultiplyPretransitive G α 2
+  · exact Or.inl h
+  · exact Or.inr (full_assembly htrans hp h)
 
 end BurnsidePrimeDegreeTheorem
